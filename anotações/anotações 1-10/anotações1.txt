@@ -1,0 +1,7 @@
+1 Criar a pasta, e o ambiente virtual.
+2 Criar um arquivo de settings.json
+3 use "django-admin startproject project ."
+4 rode o server "python manage.py runserver"
+5 configure o git
+6 configure o git ignore ( recomendado procurar )
+na internet por "git ignore django".
