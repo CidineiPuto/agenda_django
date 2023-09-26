@@ -5,3 +5,6 @@
 5 configure o git
 6 configure o git ignore ( recomendado procurar )
 na internet por "git ignore django".
+(git push origin main -u ) primeira vez
+( git push ) outras vezes 
+7 Criar o app
