@@ -1,0 +1,54 @@
+Primeiro, podemos ver quais campos vamos usar e como eles serão;
+
+# first_name (string), last_name (string), phone (string), email (email),
+# created_date (date), description (text), category (foreign key),
+# show (boolean), owner (foreign key), picture (imagem)
+
+Depois vamos criar uma classe com o nome singular da tabela que iremos criar.
+E ela irá herdar de "models.Model".
+Aliás, existe um campo (id) que é gerado automaticamente pelo django, sendo ela uma
+PK.
+
+Quando formos criar algo, iremos colocar;
+
+    first_name = models.(...)field
+
+por isso é importante ver o doc do models, para saber qual field iremos usar.
+O first name é uma string que possui uma determinada quantidade de carácteres
+
+    first_name = models.CharField(max_length=50)
+
+Agora, um primeiro nome pode ter no máximo 50 carácteres.
+
+Caso for para colocar algo em que permita alguma coisa ficar vazio vamos colocar;
+(blank=true).
+
+    last_name = models.CharField(max_length=50, blank=True)
+
+Depois disso, iremos criar algo chamado created_date, e nele iremos fazer com que
+a pessoa não registre nada lá, e não modifique aquilo.
+
+    created_date = models.DateTimeField(default=timezone.now)
+
+Agora, toda hora que algo for criado o created_date irá puxar o timezone de agora.
+Aliás, não iremos executar o método de ".now" quem executa é próprio django.
+
+Em data no settings na linha "109" vai ter algo chamado 
+    "TIME_ZONE = 'UTC'"
+É recomendado mudar para o timezone mais próximo de onde você está.
+E também, existe o LANGUAGE_CODE, que irá lhe ajudar sobre.
+
+107    LANGUAGE_CODE = "pt-br"
+
+109    TIME_ZONE = "America/Sao_paulo"
+
+
+Aliás no text não é necessário usar o tamanho de max_length.
+Agora, após fazer alteração no model, terá que usar o "python manage.py makemigrations"
+Ele irá criar uma migração com tudo isso que está ali, para depois ativarmos a migração.
+E é possível perceber que o arquivo "0001_initial.py" foi adicionado no migrations de contact.
+
+Agora, iremos aplicar as migrações.
+Logo, ela foi adicionada no banco de dados.
+Aliás, o app irá aparecer em "app_(nome da tabela)" por isso o gerado foi;
+contact_contact.
