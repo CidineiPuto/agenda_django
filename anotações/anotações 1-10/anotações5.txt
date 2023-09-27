@@ -1,0 +1,31 @@
+Temos que registrar o model no admin.
+Uma das formas é criar uma classe com o mesmo nome do model só que com Admin na frente.
+E ela irá herdar de (admin.ModelAdmin)
+Entenda essa classe como uma configuração do seu model na admin do django.
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    ...
+
+E foi usado o decorador do django.
+Se formos para a admin do django, podemos ver algo chamado contact. As vezes o plural
+falha, mas se entrar no contacts, é possível adicionar contact.
+Ele pega tudo baseado no nome da classe chamada Contact.
+
+Nomes em negritos, são nomes obrigatórios, no caso, os que estão em blank.
+
+Quando criado alguém, ele será salvo como "contact object (id)".
+
+Existe um método mágico chamado "__str__" e nele pode se mudar o nome do contact object.
+
+    def __str__(self) -> str:
+        return self.first_name
+
+Irá aparecer o first_name da pessoa agora.
+Ou first_name e last_name.
+
+    def __str__(self) -> str:
+        return f"{self.first_name} {self.last_name}"
+
+Na área admnistrativa, pode ser trabalhado colocando algumas configurações uteis para
+fazer.
