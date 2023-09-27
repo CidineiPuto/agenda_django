@@ -1,0 +1,52 @@
+Podemos configurar o admin passando algumas configurações para lá.
+Uma das coisas é colocar list_display, e dizer quais campos iremos colocar, geralmente
+se for trabalhar sem os parêndeses coloca apenas a vírgula, mas se for trabalhar com eles,
+coloque os parêndeses
+
+    list_display = ("first_name",)
+
+Irá mostrar os campos colocados dentro do list_display,e tem formas de ordenar os objetos
+também.
+Mas também pode mandar ordenado por alguma coisa;
+
+    ordering = ("id",)
+
+Será ordenado pelo id de maneira CRESCENTE.
+E para ver o id, pode colocar ele no list_display.
+
+Para mudar por decrescente só colocar "-id".
+
+    ordering = ("-id",)
+
+E também podemos criar uma list_filter, em que pode filtrar por created_date um exemplo.
+Ele pode filtrar por data como, hoje, ult 7 dias, e por aí vai.
+
+    list_filter = 'created_date'
+
+Pode filtrar por categorias também, e por outras coisas.
+
+Outra coisa que podemos colocar é "search_fields" que seria por pesquisas que podemos fazer
+por last_name, id, e etc.
+
+    search_fields = (
+            "id",
+            "first_name",
+            "last_name",
+            "phone",
+        )
+
+E outra coisa que podemos colocar é list_per_page, isso quer dizer, que ele coloca
+uma quantidade de valor por página.
+
+
+    list_per_page = 1
+    list_max_show_all = 200
+Será mostrado 1 lista por vez, e só terá o mostrar tudo se as listas for menor que 200.
+
+Porém, por enquanto iremos colocar list_per_page = 10
+
+Possui o list_editable, em que pode permitir campos que sejam editados, de maneira que
+você possa editar direto, exemplo, nome, último nome, telefone, e por aí vai.
+
+também tem o "list_display_link" em que mostra aonde pode ter o link, exemplo,
+id e first_name, porém, não pode colocar um valor no list_display_link e no list_editable.
