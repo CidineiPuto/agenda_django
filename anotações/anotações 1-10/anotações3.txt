@@ -1,0 +1,17 @@
+Django costuma trabalhar com sql, quando for subir o arquivo da base de dados, é recomendado
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
+
+lá no dbsql já terá criado uma interface para comunicar com a tabela, então, possui
+várias migrações, de maneira bem feita. Quando formos criar o model, também iremos criar
+uma tabela no sql.
+
+Caso esteja tentando fazer algo específico é recomendado ler os models do django.
+
+https://docs.djangoproject.com/en/4.2/topics/db/models/
+

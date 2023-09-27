@@ -1,10 +1,91 @@
-1 Criar a pasta, e o ambiente virtual.
-2 Criar um arquivo de settings.json
-3 use "django-admin startproject project ."
-4 rode o server "python manage.py runserver"
-5 configure o git
-6 configure o git ignore ( recomendado procurar )
-na internet por "git ignore django".
-(git push origin main -u ) primeira vez
-( git push ) outras vezes 
-7 Criar o app
+É recomendado sempre ter consistência em seu site.
+Não vamos usar mais de um app, então, pode ser criado o template, e o static dentro da
+pasta, mas só se quiser. Pois, ambas podem ser criadas na raiz também.
+
+vamos adicionar contact no INSTALLED_APPS,
+
+INSTALLED_APPS = [
+    ...
+    "contact",
+]
+
+
+Iremos criar um name_space global na pasta de templates e static.
+
+Para criar duas pastas de uma só vez só fazer o seguinte;
+
+pnome/snome -> global/css
+
+Nessa, você clica para criar uma pasta(folder).
+
+Ou tudo de uma só vez;
+
+pasta1/pasta2/pasta3/arquivo -> base_static/global/css/style.css
+
+Nessa, você clica para criar um arquivo(file).
+
+Agora, digamos que queremos usar o namespace para extender o base.html, e o namespace
+no styles.css também.
+
+Então vamos configurar no settings
+
+TEMPLATES = [
+    {
+        ...
+        'DIRS': [
+            BASE_DIR / 'base_templates'
+        ],
+        ...
+    }
+]
+
+Criar o STATICFILES_DIRS;
+
+STATICFILES_DIRS = (BASE_DIR / "base_static",)
+
+
+E vamos criar no contact, um templates.
+
+Vamos criar também, um urls.py dentro do contacts.
+
+Depois disso vamos criar uma views também.
+
+VIEWS_____
+
+    from django.shortcuts import render
+
+
+    def index(request):
+        return render(
+            request,
+            "contact/index.html",
+        )
+
+URLS_____
+
+    app_name = "contact"
+
+    urlpatterns = [
+        path("", views.index, name="index"),
+    ]
+
+Após adicionarmos a view no url, agora iremos no urls.py para incluir o arquivo;
+
+from django.urls import include, path
+
+urlpatterns = [
+    path("", include("contact.urls")),
+    path("admin/", admin.site.urls),
+]
+
+Agora, configurar o styles.css
+
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'global/css/style.css' %}">
+
+

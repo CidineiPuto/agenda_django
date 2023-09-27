@@ -1,0 +1,32 @@
+O django possui migrations, cada vez que faz alguma alteração nos models,
+você está trabalhando na base de dados, a pasta migrations vão gerando arquivos de
+migrações para você quando faz algo, caso você queira fazer ou desfazer coisas, relacionados
+a base de dados.
+
+As tabelas ainda não estão criadas no "db,sqlite" tanto que se tentar acessar a admin
+do django, irá gerar um erro, pois a tabela django_session não existe, já que as
+migrations não estão aplicadas.
+Por isso iremos usar o "python manage.py migrate" para iniciar as migrations, mas caso
+o model for alterado, você terá que fazer,
+"python manage.py makemigrations" e depois o "python manage.py migrate".
+
+Após ser aplicado, pode subir o servidor e tentar acessar a área administrativa pro django
+lá iremos usar o username, e password, para isso tem que ser criado o superuser, alguém
+que tem acesso a praticamente tudo dentro da base de dados do django, incluindo acesso
+a área administrativa.
+Criar;
+
+" python manage.py createsuperuser "
+
+Irá pedir o username, email, e senha. Se estivermos em um servidor de produção, iremos
+usar uma senha bem forte, se não, podemos usar exemplo;
+
+"1...8"
+
+depois só usarmos essa conta na admin do django.
+Lá podemos criar grupos, e usuários, tanto que no users possui o "staff status" que é a área
+de programação.
+
+Se você esquecer a senha do superuser, o django tem um cmd em que pode fazer para ajudar nisso;
+
+python manage.py changepassword (usuário)
