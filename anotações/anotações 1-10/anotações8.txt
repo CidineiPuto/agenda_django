@@ -1,0 +1,79 @@
+Quando está com os objeto  em memória, precisa usar o print para fazer algo, por exemplo,
+quando você faz um filtro para ver algumas coisas.
+
+Na foreign_key que vamos usar, não precisa ter uma category para já ter criado o contato
+mas em muitas outras foreign_key, é recomendado por exemplo, criar o category primeiro,
+para depois criar o contato.
+
+Vamos criar o show, ele vai servir para caso formos querer ou não exibir tal contato.
+
+    show = models.BooleanField(default=True)
+
+O default, como dito é o valor padrão, e serve para caso não formos fazer nada com o contato
+para o deixar invisível, ele será mostrado normalmente.
+
+Já no campo picture, uma imagem, precisamos ter um arquivo dentro do local de onde vamos
+salvar a imagem. A base de dados não tem a imagem, apenas aponta para ela, e a mostra.
+Vamos registrar a pictures no settings;
+
+Aliás, existe o static_root;
+
+STATIC_ROOT = BASE_DIR / "static"  # collectstatic
+
+Quando formos fazer collectstatic ele irá mover todos os statics para essa base "static".
+
+Mas enfim, o importante é a MEDIA_URL
+
+MEDIA_URL = 'media/'
+
+São arquivos servidos pelo próprio usuário.
+E outra coisa é o MEDIA_ROOT, uma pasta dos arquivos enviados pelos usuários,
+será na raiz do site, a pasta media.
+
+Vamos fazer logo o;
+
+python manage.py collectstatic
+
+E agora, pode ser colocado no git ignore.
+Mas é bom coletar logo o static, para usarmos já coisas de produção.
+
+E também iremos ignorar a pasta "media/" dos arquivos enviados pelo user.
+
+Dentro do módulo, iremos adicionar a picture;
+
+    picture = models.ImageField(blank=True, upload_to="pictures/%Y/%m/")
+
+
+Agora, esse upload_to irá criar uma pasta com o nome de 'picture/ano_atual/mês_atual'
+Isso dentro da pasta media. E claro, o blank serve como True, para que não seja obrigatório
+enviar essa imagem. Tanto, que se for dito que o blank não é true, todos os objetos que já
+estão na base de dados, irão ficar confusos por isso é recomendado saber disso para
+não ficar corrigindo tantas coisas.
+
+Mas antes, instale o pillow, pois se não, irá dar erro por conta da imagem.
+Após criar as alterações da migration, iremos colocar;
+
+    python manage.py makemigrations
+
+Com isso, irá dar um erro, pois ele não aplicou o "show".
+Mas quem que migra, é o migrate, então temos que colocar;
+
+    python manage.py migrate
+
+Após adicionarmos uma imagem em algum cliente, e tentarmos ver ela, o link
+não irá funcionar, pois estará puxando de outro local, então, o arquivo foi salvo
+na pasta media, quando estivermos no desenvolvimento pois na produção o próprio site Já
+vai servir.
+
+Iremos em urls;
+
+    from django.conf.urls.static import static
+    from django.conf import settings
+
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+Iremos mostrar que a url disso está na MEDIA_ROOT, tanto que se tentar acessar o
+arquivo agora,ira dar certo.
+E é a mesma coisa para o STATIC;
+
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
