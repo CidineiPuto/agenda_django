@@ -1,0 +1,58 @@
+Agora só falta colocar uma ForeignKey de owner, para que no site, o usuário que criou
+o contato tenha permissão de o alterar, já que o contato é do mesmo.
+O django já possui um sistema de criação de usuário que nós mesmos podemos usar ele,
+para nos ajudar. Tanto que é recomendado até extender o sistema de usuários.
+
+No shell do django, podemos importar coisa, ex:
+
+    from django.contrib.auth.models import User
+
+Esse é o modo padrão de usuários do django.
+
+Para criar o usuário podemos usar;
+
+    user = User.objects.create_user(username='Usuário', password='123')
+
+O usuário já pode ser criado, e o create_user é igual ao create que já cria sem precisar
+usar o save, mas, a diferença é que ele já deixa a senha criptografada.
+
+Após a criação do usuario, se tentarmos entrar por ela após fazer o logout no django,
+ele diz que o usuário não pode logar, logo, o usuário não pode acessar o admin, a não ser
+se for usado o "user.is_staff = True".
+
+Logo, podemos criar no site em si, no django, uma opção para as pessoas conseguirem
+criar contas igual a criação do usuário, que não possui staff nem superuser.
+
+Podem logar em uma área criada do próprio site.
+
+Podemos fazer ser permitido se a pessoa é ou não owner do próprio contato.
+
+Vamos importar o Users e usar no Owner.
+
+    from django.contrib.auth.models import User
+
+    owner = User()
+
+E depois vamos adicionar ele no model como ForeignKey.
+
+class Contact(models.Model):
+    ...
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+
+Agora, só fazer o makemigration.
+
+    python manage.py makemigration
+    python manage.py migrate
+
+Agora quando o contado for criado, pode ser selecionado quem será o owner,
+que é algo que irá ser feito lá mais para frente.
+
+Vamos usar a lib fake também, para desenvolver alguns dados falsos para isso.
+
+Os gerados falsos com o scripts não teram donos, os únicos que terá dono são os gerados
+de maneira manual.
