@@ -1,0 +1,3 @@
+O site não irá ficar no nosso computador, afinal, iremos mandar ele para o sever.
+E vamos ter que mudar coisas no settings, mas pode ser gerados transtornos,
+já que vamos ter uma coisa aqui, e outra no server.
