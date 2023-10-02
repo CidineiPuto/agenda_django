@@ -1,0 +1,35 @@
+Iremos criar o cabeçalho do site.
+No caso, seria este o header.
+Iremos colocar <a>, e search também.
+
+Iremos criar um form com método get;
+
+        <div class="search">
+            <form action="" method="get"></form>
+        </div>
+
+Sempre que trabalhamos com métodos do html, os métodos possíveis da maneira que estamos
+fazendo, só possui o get e post, porém, com APIS, possui muito mais.
+
+Agora, temos nosso input de search.
+
+        <div class="search">
+            <form action="" method="get">
+                <input type="text" class="search-input" placeholder="Search">
+            </form>
+        </div>
+
+O método de get, irá adrelar o que pesquisarmos bem na url.
+Podemos colocar o id desse campo como search, isso no input.
+
+                <input type="text" 
+                class="search-input" 
+                placeholder="Search"
+                id="Search"
+                name="q">
+
+Iremos ter o name, e o id. O nome do input, será relacionado ao valor da url.
+Então se pesquisarmos exemplo "Maria Joaquina" o search irá mandar para a url isto.
+
+E ainda não estamos usando, já que tem o action que significa de onde estamos postando isto,
+iremos ter ainda várias coisas, view, template e etc.
