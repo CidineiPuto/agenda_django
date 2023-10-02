@@ -1,0 +1,19 @@
+Vamos começar colocando a ordem por id decrescente;
+
+    contacts = Contact.objects.all().order_by("-id")
+
+Outra coisa que colocamos é o show, e serve para ver se a pessoa vai ser exibido
+ou não, é por isso que possui filter.
+
+    contacts = Contact.objects.filter(show=True).order_by("-id")
+
+Todos valores com o show=True, serão retornados.
+
+    contacts = Contact.objects.filter(show=True).order_by("-id")[:10]
+
+Esse "[:10]" será a quantidade de valor retornado do "0" ao "10".
+Aliás, se quiser ver a consulta da base de dados, só fazer isso;
+
+    print(contacts.query)
+
+-
