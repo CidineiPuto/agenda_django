@@ -1,0 +1,5 @@
+Vamos fazer uma tabela com isso.
+Depois, iremos configurar a tabela, com o tcaption, theader, tbody, e por aí vai.
+Iremos fazer o for apenas na parte das células, e iremos colocar 5 células,
+cada uma cobrindo um dos 5 headers.
+A tabela já está pronta.
