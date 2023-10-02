@@ -9,6 +9,8 @@ static/
 media/
 .env
 project_djangopython
+local_settings.py
+
 # Backup files # 
 *.bak 
 

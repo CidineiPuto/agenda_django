@@ -1,0 +1,24 @@
+Já que sabemos que iremos ter várias views, o arquivo costuma a ficar grande,
+é possível criar uma pasta desse módulo python, usando o package python.
+Iremos criar uma pasta chamada de views.
+
+E vamos colocar um __init__.py
+
+Quando o pacote for chamado o __init__ vai ser a primeira coisa a ser executada,
+então se tivermos alguns módulos dentro desse pacote,
+Com várias views, iremos separar em módulos diferentes, para isso funcionar com o __init__
+Iremos simular que o views é o views.py.
+
+Após o módulo ser criado, e ter colocado as coisas no views, iremos excluir o views.py
+por enquanto o django não irá funcionar mais.
+
+Agora estamos importando as coisas do views.index, e não tem index dentro dele, então
+teria que importar do module dentro dele.
+
+Se no __init__ colocarmos uma importação, esses imports é como se viessem direto
+do views.
+
+O único problema disso é esquecermos de importar isso, por isso, após criar um arquivo
+iremos importar ele pelo __init__.
+
+Podemos desativar a flake8 já que não vamos fazer nenhuma lógica no __init__.
