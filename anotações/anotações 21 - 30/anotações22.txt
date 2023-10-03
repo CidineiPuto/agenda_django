@@ -1,0 +1,74 @@
+Para voltar o valor para o form, uma forma de o manter, pode ser a seguinte;
+
+Dentro do contact_views;
+
+    context = {
+        "contacts": contacts,
+        "site_title": "Search - ",
+        "search_value": search_value, <--
+    }
+
+Dentro do _header.html
+
+        <form action="{% url "contact:search" %}" method="GET">
+            <input type="text" 
+            class="search-input" 
+            placeholder="Search"
+            id="Search"
+            name="q"
+            value="{{ search_value }}"
+            >
+
+Essa é a forma mais comum, porém, tem outra forma também.
+
+Dentro do template, temos acesso ao request. Então ao invés de usar esse valor, pode usar
+este valor;
+
+        <form action="{% url "contact:search" %}" method="GET">
+            <input type="text" 
+            class="search-input" 
+            placeholder="Search"
+            id="Search"
+            name="q"
+            value="{{ request.GET.q }}"
+            >
+
+Porém, assim irá perder o tratamento da  que ocorre na strip.
+Porém, ela pode ser usada lá dentro também.
+
+        <form action="{% url "contact:search" %}" method="GET">
+            <input type="text" 
+            class="search-input" 
+            placeholder="Search"
+            id="Search"
+            name="q"
+            value="{{ request.GET.q.strip }}"
+            >
+
+
+Estamos mantendo o valor no form, por conta do pagination que vamos usar na pág.
+
+Outra coisa que vamos fazer, é retirar os contatos caso não tenha nada.
+
+Só colocar o if dessa forma lá;
+    {% extends "global/base.html" %}
+    {% block content %}
+    {% if contacts %}
+        ...
+    {% endif %}
+    {% endblock content %}
+
+E no else, vamos colocar o seguinte;
+
+    {% extends "global/base.html" %}
+    {% block content %}
+    {% if contacts %}
+        ...
+    {% else %}
+        <div class="single-contact">
+            <h1 class="single-contact-name">
+                Nenhum contato
+            </h1>
+        </div>
+    {% endif %}
+    {% endblock content %}

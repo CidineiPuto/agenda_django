@@ -52,11 +52,10 @@ def search(request):
         .order_by("-id")
     )
 
-    print(contacts.query)
-
     context = {
         "contacts": contacts,
         "site_title": "Search - ",
+        "search_value": search_value,
     }
     return render(
         request,
