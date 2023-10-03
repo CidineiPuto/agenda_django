@@ -33,3 +33,10 @@ Então se pesquisarmos exemplo "Maria Joaquina" o search irá mandar para a url 
 
 E ainda não estamos usando, já que tem o action que significa de onde estamos postando isto,
 iremos ter ainda várias coisas, view, template e etc.
+
+Na head, iremos mudar o title;
+
+    <title>{{ site_title }}Agenda</title>
+
+O {{site title}} pode ser um contato ou algo do tipo.
+Isso deve ser alterado nas views.
