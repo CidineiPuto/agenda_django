@@ -1,0 +1,126 @@
+Agora vamos configurar algo bem importante, que irá ser o search.
+Iremos pegar o action do search.
+
+    <div class="search">
+        <form action="" method="get">
+
+Iremos colocar no action o "search" porém, de maneira configurada, lá dentro do urls.py.
+
+    path("search/", views.search, name="search"),
+
+Após a url ser criada, podemos mexer na views do search.
+Iremos mudar a consulta por enquanto, mas lembre antes de colocar a url no action.
+
+    <div class="search">
+        <form action="{% url "contact:search" %}" method="GET">
+
+Logo iremos conseguir obter esse valor através do GET.
+
+    search_value = request.GET
+    print(search_value)
+
+É possível perceber que esse GET é um dict de python, então para pegar o valor,
+poderíamos fazer 
+
+    search_value = request.GET['q']
+
+Porém, se tirarmos o "q" na url, irá dar um erro, por isso, podemos fazer o seguinte;
+
+def search(request):
+    search_value = request.GET.get("q", "")
+
+Ou irá receber o get, mas se não vier nada, irá receber uma string vazia.
+Agora sim isso irá dar certo, ainda mais se usar o "print()" para ver.
+Mas caso a pessoa digite algum espaço que não iremos querer, vamos usar o "strip()"
+irá tirar o espaço do começo e do fim.
+
+def search(request):
+    search_value = request.GET.get("q", "").strip()
+
+Mesmo se dermos vários espaço, eles serão excluidos.
+E vamos fazer com que caso a pessoa digite algo que não é um valor, no caso um valor
+vazio ou apenas espaços, vamos direcionar a pessoa para o index.
+
+Existe um atalho no django chamado "redirect".
+
+    from django.shortcuts import get_object_or_404, render, redirect
+
+Agora vamos colocar a condição na view.
+
+    if search_value == "":
+        return redirect("contact:index")
+
+Após isso, se for vazio a url, irá continuar na home.
+No django no "field lookups"
+https://docs.djangoproject.com/en/4.2/ref/models/querysets/#field-lookups
+Isso permite que buscamos coisas de maneiras diferentes com o filter.
+
+Iremos usar o "icontains" para ver se achamos através do filtro, o que a pessoa está buscando.
+Para utilizar o field lookups, vamos fazer o seguinte;
+
+    contacts = (
+        Contact.objects.filter(show=True)
+        .filter(first_name__icontains=search_value)
+        .order_by("-id")[:10]
+    )
+
+Aqui fomos buscar pelo "icontains" do first_name, e informar que a pesquisa vem do
+search_value.
+
+Por algum motivo isso;
+
+    contacts = (
+        Contact.objects.filter(show=True)
+        .filter(first_name__icontains=search_value)
+        .order_by("-id")[:10]
+    )
+
+Não está dando certo, então, podemos dar um print na query.
+
+    contacts = (
+        Contact.objects.filter(show=True)
+        .filter(first_name__icontains=search_value)
+        .order_by("-id")[:10]
+    )
+
+    print(contacts.query)
+
+Mas é possível perceber que bem provável isso não está dando certo por conta do "[:10]"
+
+Então, vamos tirar ele.
+Mas podemos fazer a pesquisa pelo last_name também.
+
+        .filter(
+            first_name__icontains=search_value,
+            last_name__icontains=search_value,
+        )
+
+Mas isso não irá funcionar já que a "," seria como um "and". 
+Porém no django existe uma função chamada Q.
+
+    from django.db.models import Q
+
+Com ela, podemos envolver um trecho da pesquisa, ex;
+
+        .filter(
+            Q(first_name__icontains=search_value),
+            Q(last_name__icontains=search_value),
+        )
+
+Porém, por enquanto ainda estamos fazendo and, mas se usarmos o "|" irá dar certo,
+pois ele iria significar o "or".
+
+        .filter(
+            Q(first_name__icontains=search_value)
+            | Q(last_name__icontains=search_value),
+        )
+
+Fazendo assim o "or" irá funcionar.
+E dessa forma podemos colocar quantos campos quisermos.
+
+        .filter(
+            Q(first_name__icontains=search_value)
+            | Q(last_name__icontains=search_value)
+            | Q(phone__icontains=search_value)
+            | Q(email__icontains=search_value)
+        )
