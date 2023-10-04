@@ -1,0 +1,56 @@
+O form de create é menor que o resto da página, para ficar um formulário mais simples.
+Para deixar ele menor, foi criado uma div com a classe;
+
+  <div class="form-wrapper">
+
+Ela tem no máximo,
+
+60 rem | 60px
+
+E possui um h2 chamado contact.
+Depois disso, possui nosso form;
+
+    <form 
+      action=""
+      method="POST"
+      enctype="multipart/form-data"
+    >
+
+Por enquanto não tem action, iremos criar ele depois. Seu método é "POST"
+no caso, para criar.
+O Get ele preenche a url, diferente do get, o Post, ele é utilizado para coisas mais
+sensíveis, por isso, essas coisas não irão aparecer na url.
+E também iremos enviar arquivos, e só conseguimos enviar esses arquivos com POST.
+Por conta de tudo, o post é mais perigoso, e por isso o django, possui algo de segurança,
+para prevenir ataques.
+
+O "enctype='multipart/form-data'" é requirido para quando possui arquivos.
+No form, está sendo colocado a classe form content para agrupar coisas que tem a mesma
+margem.
+
+      <div class="form-content">
+        <div class="form-group">
+          <label for="id_first_name">LABEL</label>
+          <input type="text" name="first_name" maxlength="255" id="id_first_name">
+        </div>
+      </div>
+
+O form-group é criado para ter um label, e um input.
+Então se ele for duplicado, para ser colocado as coisas.
+Já o botão;
+
+      <div class="form-content">
+        <div class="form-group">
+          <button class="btn" type="submit">Send</button>
+        </div>
+      </div>
+
+Está em uma div diferente para não ficar tão colado aos objetos do form-group.
+Servindo para separar um grupo de coisas do formulário.
+
+O botão é do tipo "submit" que serve para enviar o formulário.
+Existe um outro tipo de botão do  tipo reset que serve para resetar o formulário.
+
+O django também permite que criamos formulários e trabalhe com campos dinamicamentes
+lá dentro do form.
+A maioria das coisas vçao vir dinamicamente do form do django, para nos ajudar.
