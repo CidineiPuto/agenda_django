@@ -1,5 +1,7 @@
-from django.db.models import Q
-from django.shortcuts import get_object_or_404, redirect, render
+from django.core.paginator import Paginator  # type: ignore
+from django.db.models import Q  # type: ignore
+from django.shortcuts import get_object_or_404  # type: ignore
+from django.shortcuts import redirect, render  # type: ignore
 
 from contact.models import Contact
 
@@ -22,10 +24,14 @@ def contact(request, contact_id):
 
 
 def index(request):
-    contacts = Contact.objects.filter(show=True).order_by("-id")[:10]
+    contacts = Contact.objects.filter(show=True).order_by("-id")
+
+    paginator = Paginator(contacts, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
 
     context = {
-        "contacts": contacts,
+        "page_obj": page_obj,
         "site_title": "Contatos - ",
     }
     return render(
@@ -51,9 +57,12 @@ def search(request):
         )
         .order_by("-id")
     )
+    paginator = Paginator(contacts, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
 
     context = {
-        "contacts": contacts,
+        "page_obj": page_obj,
         "site_title": "Search - ",
         "search_value": search_value,
     }
