@@ -7,12 +7,12 @@
     <h2>Contact</h2>
 
     <form 
-      action=""
-      method="POST"
-      enctype="multipart/form-data"
-    >
-
-      <div class="form-content">
+    action=""
+    method="POST"
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %}
+    <div class="form-content">
         <div class="form-group">
           <label for="id_first_name">LABEL</label>
           <input type="text" name="first_name" maxlength="255" id="id_first_name">

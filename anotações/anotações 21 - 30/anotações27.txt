@@ -1,0 +1,23 @@
+Se tentarmos postar o user, podemos ver um "csrf verification failed" o django possui tudo
+pronto, mas é recomendado buscar sobre o assunto;
+
+https://pt.wikipedia.org/wiki/Cross-site_request_forgery
+
+No middleware do django tem algo chamado;
+
+
+MIDDLEWARE = [
+    "django.middleware.csrf.CsrfViewMiddleware"
+]
+
+Iremos voltar no forme colocar algo chamado "csrf_token".
+
+    <form 
+    action=""
+    method="POST"
+    enctype="multipart/form-data"
+    >
+  {% csrf_token %}
+
+Ele gera um input que sempre atualiza.
+Isso serve para garantir que os dados vindo do form são os vindo diretamente do input.
