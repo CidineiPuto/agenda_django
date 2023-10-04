@@ -1,0 +1,46 @@
+Primeiramente foi trocado os;
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+Da urls.py (contact) para as urls.py (project)
+
+Em casos que você tenha uma página especial, como a home e o search, são casos a parte,
+então não precisa seguir esse padrão para os urls, porém quando temos por exemplo o contact;
+
+    path("<int:contact_id>/", views.contact, name="contact"),
+
+Quando for trabalhar com ele é comum produzir um padrão, que possua CRUD.
+Create, read, update, delete.
+Geralmente será feito;
+
+    path("contact/<int:contact_id>/detail/", views.contact, name="contact"),
+
+Aqui ela lê o contato, pegar o detalhe dele.
+O detail é o que será feito com esse contrato.
+
+exemplo;
+
+contact/1010/detail
+Queremos dele o id 1010, e queremos ler esse id.
+As mesmas seguiriam o mesmo padrão.
+
+    path("contact/create/", views.contact, name="contact"),
+
+A create não irá ter id, já que ela é a única que você não irá ter esse id, por isso,
+apenas depois que o cria terá o id.
+
+    path("contact/<int:contact_id>/update/", views.contact, name="contact"),
+
+No update, já temos o contato e vamos atualizar.
+
+    path("contact/<int:contact_id>/delete/", views.contact, name="contact"),
+
+Agora, no delete é um caso especial, já que temos fazer ele com mais cuidado.
+
+Essa organização serve para mostrar o que vamos fazer isso, já que agora o crud virá um
+padrão. E a mesma coisa serve com users e etc.
+
+Fica mais fácil entender o que as urls fazem.
+Aliás o detail não é requirido, pode ser usado apenas se quiser.
+

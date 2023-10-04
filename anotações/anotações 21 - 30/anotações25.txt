@@ -1,0 +1,31 @@
+Agora, iremos ter a opção de criar o contato.
+Por enquanto vamos só se preocupar e criar o contato.
+Iremos criar dentro da pasta contact o "create.html".
+
+Vamos começar extendendo o global.
+Vamos criar dentro do views o "contact_forms.py"
+
+    def index(request):
+        context = {}
+        return render(
+            request,
+            "contact/create.html",
+            context,
+        )
+
+Iremos colocar isso lá dentro, mas já temos um index, e para não dar erro durante o import
+vamos trocar o nome para create.
+
+    def create(request):
+        context = {}
+        return render(
+            request,
+            "contact/create.html",
+            context,
+        )
+
+Temos que colocar nomes diferentes.
+Vamos configurar sua url no "contact/urls.py"
+
+    path("contact/create/", views.create, name="create"),
+
