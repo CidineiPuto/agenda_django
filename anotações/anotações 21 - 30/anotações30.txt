@@ -1,0 +1,101 @@
+Em algum momento iremos ter erros, para enviar eles e fazer os usuários corrigir.
+Podemos pegar algo do django chamado "field.errors"
+
+            {{ field }}
+            {{ field.errors }}
+
+Porém, para vermos erros no formulários, podemos sobescrever um método chamado "clean".
+Dentro da classe no contact_forms.
+Esse método é chamado antes de salvar os dados na base de dados. E assim teria acesso
+aos dados, com;
+
+    def clean(self) -> dict[str, Any]:
+        cleaned_data = self.cleaned_data
+        return super().clean()
+
+Cleaned_data são os dados limpos do formulário.
+Mas por enquanto queremos simular os erros.
+Tem uma classe que ela é chamada de add_error()
+
+        self.add_error(...)
+
+Nesse campo tem que ser passado aonde queremos adicionar os erros, ex; first_name.
+E no segundo será adicionado uma classe de error chamada validation error, para isso vamos
+importar ela.
+
+    from django.core.exceptions import ValidationError
+
+Essa validation error é para gerar erros no django.
+
+        self.add_error(
+            "first_name", ValidationError("Mensagem de erro", code="invalid")
+        )
+
+Será passado para o validation uma mensagem de erro e o código do erro, que no momento
+é invalid.
+O add error está adicionando sem nenhum if, quando for salvo o form já irá aparecer no 
+formularío, e ele não irá permitir o formulário ser salvo depois.
+E podemos criar mais erros;
+
+        self.add_error(
+            "first_name", ValidationError("Mensagem de erro", code="invalid")
+        )
+        self.add_error(
+            "first_name", ValidationError("Mensagem de erro 2", code="invalid")
+        )
+
+Pode ser feito mais de uma validação no mesmo campo.
+E o errorlist já foi colocado no css. Também possui o errorlist.nonfielderrors, que são
+erros que não são de campos específicos, são os que ocorreu na página e queremos exibir eles.
+
+Mas já existe uma classe para "message"
+
+      <div class="form-content">
+        <div class="form-group">
+          <p class="message error">Lorem ipsum dolor sit amet.</p>
+        </div>
+      </div>
+
+
+Se existir erros de nonfields do formulário, podemos pegar erro por erro.
+
+      {% if form.non_field_errors %}
+        <div class="form-content">
+          <div class="form-group">
+            {{ form.non_field_errors }}
+          </div>
+        </div>
+      {% endif %}
+
+Os erros nonfield, são erros como dito antes, aquele que não está adrelado a nenhum campo.
+
+Então, seria assim;
+
+        self.add_error(
+            None, ValidationError("Mensagem de erro", code="invalid")
+        )
+
+None, pois como dito, não está em nenhum campo.
+Então, pode ser feito um for nesses erros.
+
+      {% if form.non_field_errors %}
+        <div class="form-content">
+          {% for non_field_error in form.non_field_errors %}{% endfor %}
+          <div class="form-group">
+            {{ non_field_error }}
+          </div>
+        </div>
+      {% endif %}
+
+Permite que fazemos alguma coisa a essas classes.
+Podemos colocar no mesmo form_group, e deixar ele dentro de uma message_error.
+
+          <div class="form-group">
+          {% for non_field_error in form.non_field_errors %}
+            <div class="message error">
+              {{ non_field_error }}
+            </div>
+          {% endfor %}
+          </div>
+
+Mas por enquanto, não vamos fazer o for, e só pegar os erros;
