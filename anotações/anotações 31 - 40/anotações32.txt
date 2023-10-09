@@ -1,0 +1,99 @@
+Django trabalha com widgets para campos de formulários.
+Vamos supor que queremos mudar o first_name para um password.
+O widget padrão que é um charfield como usado no models, estamos usando um widget
+de texto normal.
+
+MAs se quisermos mudar podemos fazer o seguinte dentro de contact_forms;
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = (
+            "first_name",
+            "last_name",
+            "phone",
+        )
+        widgets = {
+            'first_name': form.PasswordInput()
+        }
+
+O widget é um dict de chave valor, e como chave, iremos colocar o que terá o widget mudado
+e como valor irá ser o que terá o valor mudado.
+O widget é o que está dentro do campo que será renderizado dentro da url.
+E dentro do widget podemos configurar coisas, uma delas são os attrs.
+
+            'first_name': forms.TextInput(
+                attrs={
+                    '':''
+                }
+            )
+
+Os attrs são dicionários, é referente aos atributos do widget, sendo eles placeholder,
+classes colocados no atributos, e etc. 
+
+            'first_name': forms.TextInput(
+                attrs={
+                    'class':'classe-a classe-b'
+                    'placeholder': 'Escreva aqui'.
+                }
+            )
+
+Uma outra forma que pode ser utilizada para fazer exatamente a mesma coisa,
+Acessando um init da classe;
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["first_name"].widget.attrs.update(
+            {
+                "placeholder": "Escreva aqui",
+            }
+        )
+
+Dessa maneira nós iremos atualizar o widget, ao invés de criar outro.
+Mas não pode ser feito essas duas coisas ao mesmo tempo.
+E existe outra forma de ser feita, pegando um campo que já existe, criando ele dnv;
+
+    first_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Escreva aqui",
+            },
+        )
+    )
+
+Dessa forma será recriado o dict.
+Aí agora, já estamos mexendo no campo inteiro, e podemos passar várias coisas.
+O label, e etc.
+Aliás, o verbose de onde está sendo criado o model, não irá dar certo quando for recriado.
+Outra coisa é o help_text, um texto de ajuda para seu user.
+
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Escreva aqui",
+            },
+        ),
+        label="Primeiro Nome",
+        help_text="Texto de ajuda para o seu usuário", <-
+
+tem que ser renderizado isso no form, já que criamos ele do zero, se não atualizar
+não conseguimos ver nada na tela.
+
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {{ field.errors }}
+            {{ field.help_text }}
+          </div>
+
+Agora, será possível ver o help_text que foi adicionaro no create.html
+como vamos fazer alguma coisa em html, vamos colocar um if primeiro.
+
+            {% if field.help_text %}
+              <p class="help-text">{{ field.help_text }}</p>
+            {% endif %}
+
+Agora o help text vai ficar mais bonito, pegando a classe do css.
+Outra coisa que pode ser feito é criar e pegar um campo qualquer caso queira fazer algo com ele
+dentro da view.
+
+

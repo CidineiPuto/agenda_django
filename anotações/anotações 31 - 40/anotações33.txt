@@ -1,0 +1,62 @@
+Agora precisamos validar os valores do campo, para falar isso para o user, tem algumas
+maneiras. Criar clases/funções de validador, ou uma forma que seria o método clean.
+Ele tem acesso a todos os campos do user, irá ser usado o método clean quando um campo
+depende de outro, ou quando estiver validando algo que não está relacionado a um campo
+em si, mas ao form.
+
+A primeira forma, é fazendo isso;
+        # self.add_error(
+        #     "first_name",
+        #     ValidationError(
+        #         "Mensagem",
+        #         code="invalid",
+        #     ),
+        # )
+
+Mas tem outra.
+Vamos validar o first_name.
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get("first_name")
+        
+        return first_name
+
+Se não passar por isso, não irá ser enviado para base de dados.
+E podemos colocar um if no meio;
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get("first_name")
+        if first_name = "ABC":
+            raise ValidationError(
+                '...'
+                code='invalid'
+            )
+        return first_name
+
+Diferença do add error para  o raise, é que o add error irá continuar a execução do
+código, porém todos os erros serão mostrados, e nada será enviado. Diferente do raise
+que trava a execução de tudo aonde ele foi levantado.
+
+        self.add_error(
+            "first_name",
+            ValidationError(
+                "Mensagem",
+                code="invalid",
+            ),
+        )
+
+
+Os métodos é diferentes, um você retorna o método, e o outro você retorna o super().clean()
+
+Então, o método clean seria usado por exemplo se tiver uma password e a confirmação do 
+password
+Vamos usar o first_name e o last_name como exemplo;
+
+        if first_name == last_name:
+            msg = ValidationError(
+                "Primeiro nome não pode ser igual ao segundo.", code="invalid"
+            )
+
+            self.add_error("last_name", msg)
+
+Se o first for igual ao last, esse erro será levantado no last_name.
