@@ -1,0 +1,17 @@
+Agora vamos colocar o owner par logar o usuário e saber de quem é a conta.
+Lá no  nossos forms iremos usar um form que já existe, dentro de forms.py.
+
+from django.contrib.auth.forms import UserCreationForm
+
+isso já está pronto, só vamos precisar mexer nele.
+Podemos usar  o form do create um pouco, então, vamos copiar o create, e criar
+algo chamado register.html que será o template.
+
+Vamos mudar o nome de Contact, para Register.
+Tirar o enctype, pois não vamos usar arquivos,
+O campo de imagem pode ser tirado, aquele de dentro do for.
+
+O form em si é bem semelhante ao que tínhamos antes, então não mudou tanto.
+Agora, iremos ter uma view para renderizar isso, dentro do "user_forms.py" pois
+estamos mexendo com user e não contact.
+Agora dentro do __init__ vamos importar o user_forms.py
