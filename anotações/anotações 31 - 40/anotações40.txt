@@ -1,0 +1,48 @@
+O django tem um sistema chamado de flash messages, mensagens enviadas de um lugar para o outro
+enviando de alguma view qualquer. Porém, ela só deixa de existir se aparecida em um template
+qualquer.
+Vamos enviar uma mensagem dentro do register quando o user entrar na página.
+
+    from django.contrib import messages
+
+Para as enviar, vamos fazer o seguinte;
+
+    messages.info(
+        request,
+        "Um texto qualquer",
+    )
+
+E para colocar elas no html;
+
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+Isso foi colocado no base.html, embaixo do include do header.
+Lembre, após a criação do css use
+
+    python manage.py collectstatic
+
+Aliás, podemos tirar  o messages do html de on de colocamos e colar ela em um partials.
+
+dentro do base;
+
+    {% include "global/partials/_header.html" %}
+    {% include "global/partials/_messages.html" %}
+    <main class="content">
+        {% block content %}{% endblock content %}
+        {% include "global/partials/_pagination.html" %}
+    </main>
+
+Um exemplo de uso é após salvar os dados no user_forms.
+        if form.is_valid():
+            form.save()
+            message.sucess(request, "User registered.")
+            return redirect("contact:index")
+
+A messagem será redirecionada para o index.

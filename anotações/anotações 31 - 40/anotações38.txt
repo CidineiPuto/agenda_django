@@ -15,3 +15,50 @@ O form em si é bem semelhante ao que tínhamos antes, então não mudou tanto.
 Agora, iremos ter uma view para renderizar isso, dentro do "user_forms.py" pois
 estamos mexendo com user e não contact.
 Agora dentro do __init__ vamos importar o user_forms.py
+
+    from .user_forms import *
+
+    def register(request):
+        return render(
+            request,
+            "contact/register.html",
+        )
+
+Agora iremos criar uma url do user.
+
+    # user
+    path("user/create/", views.register, name="register"),
+
+Porém, não irá aparecer um formulário, já que o user forms não está passando um context.
+Por isso iremos renderizar da maneira certa;
+
+    form = RegisterForm()
+
+    return render(
+        request,
+        "contact/register.html",
+        {"form": form},
+    )
+
+
+Agora na linha 113 - 115 iremos achar algo com;
+
+USE_I18N = False
+
+vamos colocar como True, para mostrar algo traduzido na página.
+
+Mas vamos fazer o seguinte para salvar o form;
+
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+    return render(
+        request,
+        "contact/register.html",
+        {"form": form},
+    )
+
+Agora será possível salvar ele.
