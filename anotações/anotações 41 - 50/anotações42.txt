@@ -1,0 +1,118 @@
+No forms.py será criado um novo formulário, mas para não usar o register form, será
+criado um outro da mesma maneira como foi feito o contact_form
+
+class RegisterUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+            "first_name",
+            "last_name",
+            "email",
+            "username",
+        )
+
+Vamos usar dados de um usuário logado.
+Vamos criar a view e a url;
+
+url;
+
+    path("user/update/", views.user_update, name="user_update"),
+
+view;
+
+def user_update(request):
+    form = RegisterUpdateForm()
+    return render(
+        request,
+        "contact/register.html",
+        {
+            "form": form,
+        },
+    )
+
+Dentro do form, vamos colocar um request.user;
+
+def user_update(request):
+    form = RegisterUpdateForm(instance=request.user)
+
+Podemos fazer as verificações de uma forma reversa;
+
+    if request.method != "POST":
+        return render(
+            request,
+            "contact/register.html",
+            {
+                "form": form,
+            },
+        )
+
+    form = RegisterUpdateForm(
+        instance=request.user,
+        data=request.POST,
+    )
+
+    if not form.is_valid():
+        return render(
+            request,
+            "contact/register.html",
+            {
+                "form": form,
+            },
+        )
+
+    form.save()
+    return render(
+        request,
+        "contact/register.html",
+        {
+            "form": form,
+        },
+    )
+
+Lá no user forms, temos que mexer em alguns campos;
+
+from django.contrib.auth import password_validation
+
+
+    first_name = forms.CharField(
+        min_length=2,
+        max_length=30,
+        required=True,
+        help_text='Required.',
+        error_messages={
+            'min_length': 'Please, add more than 2 letters.'
+        }
+    )
+    last_name = forms.CharField(
+        min_length=2,
+        max_length=30,
+        required=True,
+        help_text='Required.'
+    )
+
+    password1 = forms.CharField(
+        label="Password",
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+        help_text=password_validation.password_validators_help_text_html(),
+        required=False,
+    )
+
+    password2 = forms.CharField(
+        label="Password 2",
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+        help_text='Use the same password as before.',
+        required=False,
+    )
+
+O password validation mostra toda a validação do password.
+
+E também podemos usar o validator de email.
+Mas no clean email vamos validar o email atual da pessoa;
+    def clean_email(self):
+        current_email = self.instance.email
+
+        if current_email != email:
+
+Isso serve, para não dar erro ao mandar o form com o próprio email.
