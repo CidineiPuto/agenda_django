@@ -1,0 +1,38 @@
+Agora vamos fazer uma distinção do usuário logado e deslogado.
+
+O user que está no;
+
+def user_update(request):
+    form = RegisterUpdateForm(instance=request.user) <-
+
+É o mesmo user que está no;
+
+            {% if user.is_authenticated %}
+
+Tem um decorator no django chamado de login required, o usuário só pode acessar tal view
+se ele estiver realmente logado.
+
+from django.contrib.auth.decorators import login_required
+
+    @login_required(login_url="contact:login")
+    def user_update(request):
+
+    @login_required(login_url="contact:login")
+    def logout_view(request):
+
+Mas no user_update após terminar, é possível perceber que deslogou o usuário pois
+a senha foi alterada. O django view o login required e redirecionou ele para a página
+de login.
+
+Agora, vamos fazer com que a pessoa não possa criar contatos, nem update e etc, podendo
+mexer nos usuários que só ele criar.
+
+    @login_required(login_url="contact:login")
+    def create(request):
+
+    @login_required(login_url="contact:login")
+    def update(request, contact_id):
+
+    @login_required(login_url="contact:login")
+    def delete(request, contact_id):
+

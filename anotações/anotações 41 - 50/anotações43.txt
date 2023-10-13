@@ -1,11 +1,7 @@
-<header class="header">
-    <h1 class="header-heading">
-            <a href="{% url "contact:index" %}" class="header-link">
-            Agenda
-        </a>
-    </h1>
+Agora vamos fazer coisas com que a pessoa seja obrigado a ter um usuário para fazer coisas
+com seus contatos.
+Para ajustar isso, lá no _header.html, iremos fazer algumas coisas;
 
-    <nav class="menu">
         <ul class="menu-list">
             {% if user.is_authenticated %}
                 <li class="menu-item">
@@ -17,6 +13,13 @@
                 <li class="menu-item">
                     <a href="{% url "contact:logout" %}" class="menu-link">Logout</a>
                 </li>
+            {% endif %}
+        </ul>
+
+Isso, quando o usuário estiver logado.
+
+E quando não estiver logado;
+
             {% else %}
                 <li class="menu-item">
                     <a href="{% url "contact:login" %}" class="menu-link">Login</a>
@@ -24,19 +27,3 @@
                 <li class="menu-item">
                     <a href="{% url "contact:register" %}" class="menu-link">Register</a>
                 </li>
-            {% endif %}
-        </ul>
-    </nav>
-
-    <div class="search">
-        <form action="{% url "contact:search" %}" method="GET">
-            <input type="text" 
-            class="search-input" 
-            placeholder="Search"
-            id="Search"
-            name="q"
-            value="{{ request.GET.q.strip }}"
-            >
-        </form>
-    </div>
-</header>
