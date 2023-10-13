@@ -116,3 +116,53 @@ Mas no clean email vamos validar o email atual da pessoa;
         if current_email != email:
 
 Isso serve, para não dar erro ao mandar o form com o próprio email.
+
+    def clean_password1(self):
+        password1 = self.cleaned_data.get("password1")
+
+        if password1:
+            try:
+                password_validation.validate_password(password1)
+            except ValidationError as errors:
+                self.add_error(
+                    "password1",
+                    ValidationError(errors),
+                )
+
+        return password1
+
+Assim o password 1 agora, será verificado.
+
+        if password1 or password2:
+            if password1 != password2:
+                self.add_error(
+                    "password2",
+                    ValidationError("Senhas não batem"),
+                )
+
+E agora foi verificado se o password 1 é igual ao 2.
+
+Porém, a senha não será salva, pois elas são só temporárias, agora que a senha será salva;
+
+    def save(self, commit=True):
+        clean_data = self.cleaned_data
+        user = super().save(commit=False)
+
+        password = clean_data.get("password1")
+
+        if password:
+            user.set_password(password)
+
+        if commit:
+            user.save()
+            
+        return user
+
+
+Agora com isso, a senha será salva.
+Agora, quando terminar isso, podemos fazer um redirect.
+
+    return redirect("contact:user_update")
+
+O redirect foi feito de maneira que atualize a página
+E podemos criar outro template para o update.
