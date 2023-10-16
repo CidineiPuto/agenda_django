@@ -17,7 +17,9 @@ def create(request):
         }
 
         if form.is_valid():
-            contact = form.save()
+            contact = form.save(commit=False)
+            contact.owner = request.user
+            contact.save()
             return redirect("contact:update", contact_id=contact.pk)
 
         return render(
@@ -43,6 +45,7 @@ def update(request, contact_id):
         Contact,
         pk=contact_id,
         show=True,
+        owner=request.user,
     )
     form_action = reverse("contact:update", args=(contact_id,))
     if request.method == "POST":
@@ -80,6 +83,7 @@ def delete(request, contact_id):
         Contact,
         pk=contact_id,
         show=True,
+        owner=request.user,
     )
     confirmation = request.POST.get("confirmation", "no")
     if confirmation == "yes":

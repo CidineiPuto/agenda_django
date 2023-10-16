@@ -1,0 +1,26 @@
+Agora vamos fazer com que quando a pessoa for criar um contato o usuário será
+atrelado ao contato criado.
+Lembre que o;
+
+            contact = form.save(commit=False)
+
+Faz com que o contato não seja salvo no banco de dados, e deixa você fazer algumas alterações
+nele.
+
+        if form.is_valid():
+            contact.owner = request.user
+            contact.save()
+
+Agora a pessoa é obrigada ser owner do contato.
+Agora, para fazer com que apenas o owner consiga alterar o contato, vamos fazer o seguinte;
+
+    contact = get_object_or_404(
+        Contact,
+        pk=contact_id,
+        show=True,
+        owner=request.user,
+    )
+
+Dentro do update e do delete, iremos fazer isso, logo, só irá ser possível alterar os dados
+com o usuário.
+E vamos fazer a mesma coisa com o delete.
