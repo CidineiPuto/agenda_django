@@ -1,0 +1,62 @@
+Uma maneira para fazer o deploy do site, é usar um servidor linux.
+quando um site é colocado na internet, alguma hora você terá que pagar ele.
+Mas pode ser usado;
+
+aws
+digital ocean
+local web
+
+Qualquer lugar que tenha acesso ao servidor, e consiga mexer nele por comando
+então, teria que instalar coisas no servidor.
+Pode ser usado a google cloud, que tem bastante crédito para novos clientes.
+
+Primeiramente, iremos criar um novo projeto, porém, terá que ser colocado um cartão de
+crédito, para saber se você não é um robô.
+
+Apertando nos 3 riscos na esquerda superior, iremos clicar em "compute engine"
+e usar a "instância vm".
+Será criado uma instância de máquina virtual, vamos usar o ubuntu.
+
+No instância vm vamos clicar no  "criar instância".
+Podemos mudar algumas coisas também.
+
+No que vamos mexer, primeiramente é no "Disco de inicialização".
+Vamos mudar e colocar o sistema operacional como "Ubuntu 20.04 LTS"
+
+Lá em baixo no firewall, tem coisas que são comuns que é liberar a porta 80 que é a
+http, e a https.
+Depois de criada ela estará cobrando já. Irá clicar no link da instância, e terá acesso
+ao link de sua máquina.
+Nas interfaces de rede, terá dois tipos de redes. O interno, e o externo.
+O externo vai ser usado para acessar o site de outro lugar.
+Para fixar o ip, pode clicar nos 3 discos no canto esquerdo superior e ir em
+"Rede VPC", em rede vpc, irá em endereços ip. No externo, você arrasta para direita
+até ver os 3 pontos, aonde irá clicar em "reservar ip".
+Agora o ip está estático. Aliás, também tem acesso ao firewall, para liberar algumas
+portas ao servidor.
+Feito a configuração, vamos voltar em computer engine clicando nos 3 riscos, instâncias
+de vm.
+Na esquerda você rola até configurações em "metadados".
+E pra isso será necessário a chave ssh.
+Irá em chaves ssh.
+Chaves ssh é algo que irá existir em seu computador, em que terá uma chave privada
+e pública. A privada, irá ficar em seu computador, a pública irá ficar em seu computador
+e na internet. Quando for acessar o servidor pelo seu computador, o que vai acontecer
+é que seu computador com o servidor, irá dar "match" nessa sala.
+
+No windows, irá no powershell, e escrever; ssh-keygen  -C '(comentário)'
+depois ele mostra aonde irá salvar essa chave.
+Agora na sua pasta de usuários terá algo chamado .ssh.
+
+Quando só você usa o computador, não é necessário colocar senha, então, apenas aperte
+em enter.
+
+Na pasta ssh terá o id_rsa e o  id_rsa.pub
+O arquivo pub é o público, o que será compartilhado.
+Irá copiar tudo, depois irá voltar para o adicionar item, e cole aquilo.
+Ele irá criar o usuário como "windows". Que havia sido seu comentário.
+
+Agora no servidor, se digitar 
+ssh (usuário/comentário)@(ip-do-servidor)
+
+Se quiser sair do servidor, apenas clicar em "exit".

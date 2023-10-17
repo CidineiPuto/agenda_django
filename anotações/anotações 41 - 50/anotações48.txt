@@ -1,0 +1,21 @@
+Primeira coisa vamos ajustar o "local_settings.py".
+Primeira coisa será alterada a secret_key, debug, e allowed_hosts.
+Outra coisa que será mudada é o DataBases.
+No secret_key vamos gerar um código aleatório que seja só para o seu servidor.
+Lembre que os valores devem ser false em produção.
+
+DATABASES = {
+    "default": {
+        "ENGINE": "CHANGE-ME",
+        "NAME": "CHANGE-ME",
+        "USER": "CHANGE-ME",
+        "PASSWORD": "CHANGE-ME",
+        "HOST": "CHANGE-ME",
+        "PORT": "CHANGE-ME",
+    }
+}
+
+É assim que vamos colocar a database, a engine será da postgresql.
+Name, é nome da base de dados, User é o usuário da base, passsword é a senha do usuario,
+host é o localhost, e a porta é do postgree.
+Depois que criou esse arquivo você irá ir no servidor.
