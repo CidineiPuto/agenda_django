@@ -1,3 +1,0 @@
-É bem comum no django utilizarmos um arquivo dentro de contact com o nome de forms.py.
-Então dentro do contact, vamos criar este arquivo.
-E vamos pegar a classe "ContactForm" e mover essa classe para lá.
