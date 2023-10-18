@@ -9,7 +9,8 @@ static/
 media/
 .env
 project_djangopython
-local_settings.py
+project/local_settings.py
+gunicorn-error-log
 
 # Backup files # 
 *.bak 
